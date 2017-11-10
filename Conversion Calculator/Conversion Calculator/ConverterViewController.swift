@@ -19,6 +19,9 @@ class ConverterViewController: UIViewController {
                           Converter(label: "celcius to fahrenheit", inputUnit: "°C", outputUnit: "°F"),
                           Converter(label: "miles to kilometers", inputUnit: "mi", outputUnit: "km"),
                           Converter(label: "kilometers to miles", inputUnit: "km", outputUnit: "mi")]
+        
+        inputDisplay.text = converters[0].inputUnit
+        outputDisplay.text = converters[0].outputUnit
 
         // Do any additional setup after loading the view.
     }
@@ -29,6 +32,7 @@ class ConverterViewController: UIViewController {
     }
     
     @IBAction func converterButton(_ sender: UIButton) {
+        
     }
     
     /*
