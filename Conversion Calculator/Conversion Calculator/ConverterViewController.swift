@@ -43,6 +43,17 @@ class ConverterViewController: UIViewController {
         self.present(alert, animated:true, completion: nil)
     }
     
+    @IBAction func buttonSelection(_ sender: UIButton) {
+        switch sender.tag {
+        case 1:
+            inputDisplay.text = "1" + inputDisplay.text!
+        case 2:
+            inputDisplay.text = "2" + inputDisplay.text!
+        default:
+            inputDisplay.text = inputDisplay.text
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
