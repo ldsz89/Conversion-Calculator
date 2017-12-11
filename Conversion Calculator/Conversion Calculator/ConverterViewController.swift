@@ -13,6 +13,7 @@ class ConverterViewController: UIViewController {
     @IBOutlet weak var outputDisplay: UITextField!
     
     var stringInput: String = ""
+    var stringOutput: String = ""
     
     var converters = [Converter(label: "fahrenheit to celcius", inputUnit: "°F", outputUnit: "°C"),
                       Converter(label: "celcius to fahrenheit", inputUnit: "°C", outputUnit: "°F"),
@@ -28,6 +29,7 @@ class ConverterViewController: UIViewController {
         outputDisplay.text = converters[0].outputUnit
         
         stringInput = ""
+        stringOutput = ""
         activeConverter = converters[0]
     }
 
@@ -40,9 +42,10 @@ class ConverterViewController: UIViewController {
         let alert = UIAlertController(title: "Choose Converter", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
         for conv in converters {
             alert.addAction(UIAlertAction(title: conv.label, style: UIAlertActionStyle.default, handler: { (alertAction) in
-                self.inputDisplay.text = conv.inputUnit
-                self.outputDisplay.text = conv.outputUnit
+                self.inputDisplay.text = self.stringInput + conv.inputUnit
+                self.outputDisplay.text = self.stringOutput + conv.outputUnit
                 self.activeConverter = conv
+                self.convert()
             }))
         }
         
@@ -54,15 +57,15 @@ class ConverterViewController: UIViewController {
         case -2:
             stringInput = ""
         case -1:
-            var castedInt: Int? = Int(stringInput)
-            if (castedInt != nil) {
-                castedInt = castedInt! * -1
-                stringInput = String(castedInt!)
+            var castedDouble: Double? = Double(stringInput)
+            if (castedDouble != nil) {
+                castedDouble = castedDouble! * -1
+                stringInput = String(castedDouble!)
             }
-        case 0..<10:
+        case 0...9:
             stringInput = stringInput + String(sender.tag)
         case 10:
-            if stringInput.contains(".") {
+            if stringInput.range(of: ".") != nil {
                 break
             } else {
                 stringInput = stringInput + "."
@@ -71,6 +74,31 @@ class ConverterViewController: UIViewController {
             inputDisplay.text = inputDisplay.text
         }
         inputDisplay.text = stringInput + activeConverter!.inputUnit
+        convert()
+    }
+    
+    func convert() {
+        let castedInput:Double? = Double(stringInput)
+        var output:Double
+        if (castedInput != nil) {
+            switch activeConverter!.label {
+            case "fahrenheit to celcius":
+                output = Double((castedInput! - 32) * (5/9))
+            case "celcius to fahrenheit":
+                output = Double((castedInput! * (9/5) + 32))
+            case "miles to kilometers":
+                output = Double(castedInput! * 1.609344)
+            case "kilometers to miles":
+                output = Double(castedInput! / 1.609344)
+            default:
+                output = 0
+            }
+        }
+        else {
+            output = 0
+        }
+        stringOutput = String(output)
+        outputDisplay.text = stringOutput + activeConverter!.outputUnit
     }
     
     /*

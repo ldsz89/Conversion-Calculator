@@ -242,6 +242,9 @@
                                                         <state key="normal" title=".">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="buttonSelection:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v5w-y4-qLr"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
