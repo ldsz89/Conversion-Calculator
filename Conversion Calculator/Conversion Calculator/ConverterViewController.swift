@@ -12,18 +12,23 @@ class ConverterViewController: UIViewController {
     @IBOutlet weak var inputDisplay: UITextField!
     @IBOutlet weak var outputDisplay: UITextField!
     
+    var stringInput: String = ""
+    
     var converters = [Converter(label: "fahrenheit to celcius", inputUnit: "°F", outputUnit: "°C"),
                       Converter(label: "celcius to fahrenheit", inputUnit: "°C", outputUnit: "°F"),
                       Converter(label: "miles to kilometers", inputUnit: "mi", outputUnit: "km"),
                       Converter(label: "kilometers to miles", inputUnit: "km", outputUnit: "mi")]
+    
+    var activeConverter: Converter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         inputDisplay.text = converters[0].inputUnit
         outputDisplay.text = converters[0].outputUnit
-
-        // Do any additional setup after loading the view.
+        
+        stringInput = ""
+        activeConverter = converters[0]
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,6 +42,7 @@ class ConverterViewController: UIViewController {
             alert.addAction(UIAlertAction(title: conv.label, style: UIAlertActionStyle.default, handler: { (alertAction) in
                 self.inputDisplay.text = conv.inputUnit
                 self.outputDisplay.text = conv.outputUnit
+                self.activeConverter = conv
             }))
         }
         
@@ -45,13 +51,26 @@ class ConverterViewController: UIViewController {
     
     @IBAction func buttonSelection(_ sender: UIButton) {
         switch sender.tag {
-        case 1:
-            inputDisplay.text = "1" + inputDisplay.text!
-        case 2:
-            inputDisplay.text = "2" + inputDisplay.text!
+        case -2:
+            stringInput = ""
+        case -1:
+            var castedInt: Int? = Int(stringInput)
+            if (castedInt != nil) {
+                castedInt = castedInt! * -1
+                stringInput = String(castedInt!)
+            }
+        case 0..<10:
+            stringInput = stringInput + String(sender.tag)
+        case 10:
+            if stringInput.contains(".") {
+                break
+            } else {
+                stringInput = stringInput + "."
+            }
         default:
             inputDisplay.text = inputDisplay.text
         }
+        inputDisplay.text = stringInput + activeConverter!.inputUnit
     }
     
     /*
