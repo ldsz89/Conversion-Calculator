@@ -97,7 +97,7 @@ class ConverterViewController: UIViewController {
         else {
             output = 0
         }
-        stringOutput = String(output)
+        stringOutput = String(format: "%.2f", output)
         outputDisplay.text = stringOutput + activeConverter!.outputUnit
     }
     
